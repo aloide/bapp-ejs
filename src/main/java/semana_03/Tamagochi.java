@@ -3,6 +3,7 @@ package semana_03;
 enum EstadoTamagochi{
     MUERTO,
     DESPIERTO,
+    VIVO
 
 }
 
@@ -14,44 +15,49 @@ public class Tamagochi {
     public int energia = 50; // valor entre 0 y 100
     public int humor = 3; // valor entre 1 y 5
 
+    private EstadoTamagochi estado;
+
     private int cantidadIngestas= 0;
     public Tamagochi(String unNombre){
         nombre = unNombre;
     }
 
     // comportamientos de ingesta
-
-    /**
-     * incrementa la energía (que es un número entre 0 y 100 unidades) en 10% de la energía que tiene la mascota y incrementa el humor en 1 nivel.
-     */
     public void comer(){
         ingerir(10);
-
     }
     public void beber(){
         ingerir(5);
     }
 
     private void ingerir(int porcentaje) {
+        // control de vida del bicho
+        if (estado == EstadoTamagochi.MUERTO) return;
+
+        // calcula la nueva energia a setear
         int nuevaEnergia = porcentaje * energia / 100;
 
-        cantidadIngestas++;
-        if(cantidadIngestas == 5){
-            estaVivo = false;
+        // se suma la cantidad de ingestas
+        cantidadIngestas += 1;
+
+
+        if(cantidadIngestas > 3){
+            decrementarHumor();
+            if(cantidadIngestas > 5){
+                cambioEstado(EstadoTamagochi.MUERTO);
+                return;
+            }
             return;
         }
-
-        if (cantidadIngestas<= 3) {
-            setHumor(-1);
-            return;
-        }
-        if (energia < 100) {
-            setHumor(1);
-        }
-        setEnergia(nuevaEnergia);
-
-
+        incrementarHumor();
     }
+    private void incrementarHumor(){
+        humor++;
+    }
+    private void decrementarHumor(){
+        humor--;
+    }
+
     private void setEnergia(int nuevaEnergia){
         if(energia < 100){
             energia += nuevaEnergia;
@@ -77,8 +83,8 @@ public class Tamagochi {
 
     }
 
-    private boolean cambioEstado(){
-        return true;
+    private void cambioEstado(EstadoTamagochi nuevoEstado ){
+        estado = nuevoEstado;
     };
 
     private String getHumor(){

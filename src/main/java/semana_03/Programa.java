@@ -16,5 +16,9 @@ public class Programa {
         System.out.println(t);
         t.comer();
         System.out.println(t);
+        t.comer();
+        System.out.println(t);
+        t.comer();
+        System.out.println(t);;
     }
 }
