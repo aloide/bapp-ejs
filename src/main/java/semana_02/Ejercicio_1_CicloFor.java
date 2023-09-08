@@ -1,3 +1,5 @@
+package semana_02;
+
 public class Ejercicio_1_CicloFor {
     public static char c = '*';
     public static void main(String[] args) {
